@@ -20,15 +20,32 @@
         <div class="text-sm" style="color: red">{{ hasErr }}</div>
       </template>
     </form>
-    <template v-for="(item, index) in itemList" :key="index">
+    <template
+      v-if="itemList.length !== 0"
+      v-for="(item, index) in itemList"
+      :key="index"
+    >
       <div
-        class="border p-3 py-2 rounded-md text-sm space-x-1 flex flex-col items-center"
+        class="border p-3 rounded-md text-sm flex justify-between items-center"
       >
-        <input type="checkbox" v-model="item.completed" />
-        <label :style="item.completed ? itemStyle : ''">{{
-          item.content
-        }}</label>
+        <div class="space-x-1 flex items-center w-full">
+          <input type="checkbox" v-model="item.completed" />
+          <label :style="item.completed ? itemStyle : ''"
+            >{{ item.content }}
+          </label>
+        </div>
+        <button
+          type="button"
+          style="background-color: gray; color: white; border-radius: 5px"
+          class="px-2"
+          @click="deleteItem(index)"
+        >
+          Delete
+        </button>
       </div>
+    </template>
+    <template v-else>
+      <div>To Do List가 없습니다!</div>
     </template>
   </div>
 </template>
@@ -43,7 +60,7 @@ interface Item {
 }
 
 const item = ref('')
-const itemList = ref([])
+const itemList: Item[] = ref([])
 const hasErr = ref('')
 const itemStyle = {
   textDecoration: 'line-through',
@@ -65,5 +82,9 @@ const addItem = () => {
 
 const checkErr = () => {
   hasErr.value = '추가할 내용이 없습니다.'
+}
+
+const deleteItem = (index: number) => {
+  itemList.value.splice(index, 1)
 }
 </script>
