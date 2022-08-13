@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Item } from '../views/HomeView.vue'
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     itemList: Array<Item>
   }>(),
@@ -13,10 +13,11 @@ const itemStyle = {
   color: 'gray',
 }
 
-const deleteItem = (index: number) => {
-  props.itemList.splice(index, 1)
-}
+const emit = defineEmits<{
+  (event: 'delete-item', value: number): void
+}>()
 </script>
+
 <template>
   <template
     v-if="itemList.length !== 0"
@@ -36,7 +37,7 @@ const deleteItem = (index: number) => {
         type="button"
         style="background-color: gray; color: white; border-radius: 5px"
         class="px-2"
-        @click="deleteItem(index)"
+        @click="emit('delete-item', index)"
       >
         Delete
       </button>
