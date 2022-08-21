@@ -15,6 +15,7 @@ const itemStyle = {
 
 const emit = defineEmits<{
   (event: 'delete-item', value: number): void
+  (event: 'toggle-item', value: number): void
 }>()
 </script>
 
@@ -28,7 +29,11 @@ const emit = defineEmits<{
       class="border p-3 rounded-md text-sm flex justify-between items-center"
     >
       <div class="space-x-1 flex items-center w-full">
-        <input type="checkbox" v-model="item.completed" />
+        <input
+          type="checkbox"
+          :checked="item.completed"
+          @change="emit('toggle-item', index)"
+        />
         <label :style="item.completed ? itemStyle : ''"
           >{{ item.content }}
         </label>

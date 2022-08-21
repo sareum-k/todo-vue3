@@ -26,8 +26,41 @@ const addItem = async (item: any) => {
     console.log(err)
   }
 }
-const deleteItem = (index: number) => {
-  itemList.value.splice(index, 1)
+
+const getItemList = async () => {
+  try {
+    const res = await axios.get('http://localhost:3000/todos')
+    itemList.value = res.data
+  } catch (err) {
+    alert('에러가 있습니다. 관리자에게 문의해주세요!')
+    console.log(err)
+  }
+}
+
+getItemList()
+
+const deleteItem = async (index: number) => {
+  const id = itemList.value[index].id
+  try {
+    await axios.delete(`http://localhost:3000/todos/${id}`)
+    itemList.value.splice(index, 1)
+  } catch (err) {
+    alert('에러가 있습니다. 관리자에게 문의해주세요!')
+    console.log(err)
+  }
+}
+
+const updateItem = async (index: number) => {
+  const id = itemList.value[index].id
+  try {
+    await axios.patch(`http://localhost:3000/todos/${id}`, {
+      completed: !itemList.value[index].completed,
+    })
+    itemList.value[index].completed = !itemList.value[index].completed
+  } catch (err) {
+    alert('에러가 있습니다. 관리자에게 문의해주세요!')
+    console.log(err)
+  }
 }
 
 const filteredItemList = computed(() => {
@@ -50,6 +83,10 @@ const filteredItemList = computed(() => {
       placeholder="Search"
     />
     <TodoSimpleForm @add-item="addItem" />
-    <TodoList :itemList="filteredItemList" @delete-item="deleteItem" />
+    <TodoList
+      :itemList="filteredItemList"
+      @delete-item="deleteItem"
+      @toggle-item="updateItem"
+    />
   </div>
 </template>
