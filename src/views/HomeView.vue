@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import axios from 'axios'
 
 import TodoSimpleForm from '../components/TodoSimpleForm.vue'
 import TodoList from '../components/TodoList.vue'
@@ -13,8 +14,17 @@ export interface Item {
 const itemList = ref<Item[]>([])
 const searchText = ref('')
 
-const addItem = (item: any) => {
-  itemList.value.push(item)
+const addItem = async (item: any) => {
+  try {
+    const res = await axios.post('http://localhost:3000/todos', {
+      content: item.content,
+      completed: item.completed,
+    })
+    itemList.value.push(res.data)
+  } catch (err) {
+    alert('에러가 있습니다. 관리자에게 문의해주세요!')
+    console.log(err)
+  }
 }
 const deleteItem = (index: number) => {
   itemList.value.splice(index, 1)
