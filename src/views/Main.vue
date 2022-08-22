@@ -4,6 +4,7 @@ import axios from 'axios'
 
 import TodoSimpleForm from '../components/TodoSimpleForm.vue'
 import TodoList from '../components/TodoList.vue'
+import Pagination from '../components/Pagination.vue'
 
 export interface Item {
   id: number | null
@@ -12,7 +13,10 @@ export interface Item {
 }
 
 const itemList = ref<Item[]>([])
-const searchText = ref('')
+const searchText = ref<string>('')
+const numberOfItems = ref<string | number>(0)
+const limit: number = 10
+const currentPage = ref<number>(1)
 
 const addItem = async (item: any) => {
   try {
@@ -27,9 +31,13 @@ const addItem = async (item: any) => {
   }
 }
 
-const getItemList = async () => {
+const getItemList = async (page = currentPage.value) => {
+  currentPage.value = page
   try {
-    const res = await axios.get('http://localhost:3000/todos')
+    const res = await axios.get(
+      `http://localhost:3000/todos?_page=${page}&_limit=${limit}`
+    )
+    numberOfItems.value = res.headers['x-total-count']
     itemList.value = res.data
   } catch (err) {
     alert('에러가 있습니다. 관리자에게 문의해주세요!')
@@ -88,5 +96,13 @@ const filteredItemList = computed(() => {
       @delete-item="deleteItem"
       @toggle-item="updateItem"
     />
+    <div class="flex justify-center">
+      <Pagination
+        :numberOfItems="numberOfItems"
+        :limit="limit"
+        :currentPage="currentPage"
+        @change-page="getItemList"
+      />
+    </div>
   </div>
 </template>
