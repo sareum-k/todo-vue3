@@ -71,8 +71,18 @@ const updateItem = async (index: number) => {
   }
 }
 
-watch(searchText, () => {
+let timeout: null | number = null
+
+const searchEnter = () => {
+  clearTimeout(timeout!)
   getItemList(1)
+}
+
+watch(searchText, () => {
+  clearTimeout(timeout!)
+  timeout = setTimeout(() => {
+    getItemList(1)
+  }, 800)
 })
 </script>
 
@@ -84,6 +94,7 @@ watch(searchText, () => {
       type="text"
       v-model="searchText"
       placeholder="Search"
+      @keyup.enter="searchEnter()"
     />
     <TodoSimpleForm @add-item="addItem" />
     <TodoList
