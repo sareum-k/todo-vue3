@@ -20,11 +20,11 @@ const currentPage = ref<number>(1)
 
 const addItem = async (item: any) => {
   try {
-    const res = await axios.post('http://localhost:3000/todos', {
+    await axios.post('http://localhost:3000/todos', {
       content: item.content,
       completed: item.completed,
     })
-    itemList.value.push(res.data)
+    getItemList(currentPage.value)
   } catch (err) {
     alert('에러가 있습니다. 관리자에게 문의해주세요!')
     console.log(err)
@@ -35,7 +35,7 @@ const getItemList = async (page = currentPage.value) => {
   currentPage.value = page
   try {
     const res = await axios.get(
-      `http://localhost:3000/todos?content_like=${searchText.value}&_page=${page}&_limit=${limit}`
+      `http://localhost:3000/todos?content_like=${searchText.value}&_page=${page}&_limit=${limit}&_sort=id&_order=desc`
     )
     numberOfItems.value = res.headers['x-total-count']
     itemList.value = res.data
@@ -51,7 +51,7 @@ const deleteItem = async (index: number) => {
   const id = itemList.value[index].id
   try {
     await axios.delete(`http://localhost:3000/todos/${id}`)
-    itemList.value.splice(index, 1)
+    getItemList(currentPage.value)
   } catch (err) {
     alert('에러가 있습니다. 관리자에게 문의해주세요!')
     console.log(err)
