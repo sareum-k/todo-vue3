@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, watch } from 'vue'
 import axios from 'axios'
 
 import TodoSimpleForm from '../components/TodoSimpleForm.vue'
@@ -35,7 +35,7 @@ const getItemList = async (page = currentPage.value) => {
   currentPage.value = page
   try {
     const res = await axios.get(
-      `http://localhost:3000/todos?_page=${page}&_limit=${limit}`
+      `http://localhost:3000/todos?content_like=${searchText.value}&_page=${page}&_limit=${limit}`
     )
     numberOfItems.value = res.headers['x-total-count']
     itemList.value = res.data
@@ -71,13 +71,8 @@ const updateItem = async (index: number) => {
   }
 }
 
-const filteredItemList = computed(() => {
-  if (searchText.value) {
-    return itemList.value.filter((item) => {
-      return item.content.includes(searchText.value)
-    })
-  }
-  return itemList.value
+watch(searchText, () => {
+  getItemList(1)
 })
 </script>
 
@@ -92,7 +87,7 @@ const filteredItemList = computed(() => {
     />
     <TodoSimpleForm @add-item="addItem" />
     <TodoList
-      :itemList="filteredItemList"
+      :itemList="itemList"
       @delete-item="deleteItem"
       @toggle-item="updateItem"
     />
