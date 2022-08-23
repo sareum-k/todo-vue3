@@ -2,9 +2,9 @@
 import { ref, watch } from 'vue'
 import axios from 'axios'
 
-import TodoSimpleForm from '../components/TodoSimpleForm.vue'
-import TodoList from '../components/TodoList.vue'
-import Pagination from '../components/Pagination.vue'
+import TodoSimpleForm from '@/components/TodoSimpleForm.vue'
+import TodoList from '@/components/TodoList.vue'
+import Pagination from '@/components/Pagination.vue'
 
 export interface Item {
   id: number | null
@@ -87,7 +87,7 @@ watch(searchText, () => {
 </script>
 
 <template>
-  <div class="space-y-3 p-10">
+  <div class="space-y-3" style="padding: 20px">
     <div class="text-4xl font-bold">To Do List</div>
     <input
       class="border rounded h-10 flex-grow p-2 text-sm w-full"

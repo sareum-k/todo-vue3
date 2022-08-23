@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { Item } from '../views/Main.vue'
+import type { Item } from '@/views/todos/index.vue'
 
 const item = ref('')
 const hasErr = ref('')

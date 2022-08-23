@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Item } from '../views/Main.vue'
+import type { Item } from '@/views/todos/index.vue'
 
 withDefaults(
   defineProps<{
