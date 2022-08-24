@@ -62,7 +62,7 @@ function moveToDetailPage(id: number | null) {
       <button
         type="button"
         style="background-color: gray; color: white; border-radius: 5px"
-        class="px-2"
+        class="px-3"
         @click.stop="emit('delete-item', index)"
       >
         Delete
