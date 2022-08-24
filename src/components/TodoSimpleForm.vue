@@ -31,7 +31,7 @@ const checkErr = () => {
   <form class="space-y-1" @submit.prevent="onSubmit">
     <div class="flex space-x-1">
       <input
-        class="border rounded h-10 flex-grow p-2 text-sm"
+        class="border rounded h-10 p-2 text-sm"
         type="text"
         v-model="item"
         placeholder="추가 할 내용을 입력해주세요 :)"

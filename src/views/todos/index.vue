@@ -87,16 +87,18 @@ watch(searchText, () => {
 </script>
 
 <template>
-  <div class="space-y-3" style="padding: 20px">
+  <div class="space-y-3">
     <div class="text-4xl font-bold">To Do List</div>
-    <input
-      class="border rounded h-10 flex-grow p-2 text-sm w-full"
-      type="text"
-      v-model="searchText"
-      placeholder="Search"
-      @keyup.enter="searchEnter()"
-    />
-    <TodoSimpleForm @add-item="addItem" />
+    <div class="flex space-x-2">
+      <input
+        class="border rounded h-10 p-2 text-sm"
+        type="text"
+        v-model="searchText"
+        placeholder="Search"
+        @keyup.enter="searchEnter()"
+      />
+      <TodoSimpleForm @add-item="addItem" />
+    </div>
     <TodoList
       :itemList="itemList"
       @delete-item="deleteItem"

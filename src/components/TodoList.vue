@@ -18,7 +18,7 @@ const itemStyle = {
 
 const emit = defineEmits<{
   (event: 'delete-item', value: number): void
-  (event: 'toggle-item', value: number, checked: any): void
+  (event: 'toggle-item', value: number, checked: boolean): void
 }>()
 
 function moveToDetailPage(id: number | null) {
@@ -46,7 +46,13 @@ function moveToDetailPage(id: number | null) {
         <input
           type="checkbox"
           :checked="item.completed"
-          @change="emit('toggle-item', index, $event.target.checked)"
+          @change="
+            emit(
+              'toggle-item',
+              index,
+              ($event.target as HTMLInputElement).checked
+            )
+          "
           @click.stop
         />
         <label :style="item.completed ? itemStyle : ''"

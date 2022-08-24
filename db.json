@@ -126,13 +126,13 @@
       "id": 55
     },
     {
-      "content": "123",
+      "content": "수정 테스트4",
       "completed": false,
       "id": 56
     },
     {
-      "content": "123",
-      "completed": false,
+      "content": "수정 확인",
+      "completed": true,
       "id": 57
     },
     {

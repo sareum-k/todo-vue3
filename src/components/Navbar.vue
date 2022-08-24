@@ -28,6 +28,8 @@ const navItems: NavItem[] = [
         </li>
       </ul>
     </div>
-    <RouterView />
+    <div class="" style="padding: 1.5rem 10rem">
+      <RouterView />
+    </div>
   </div>
 </template>
