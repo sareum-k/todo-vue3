@@ -15,7 +15,7 @@ const navItems: NavItem[] = [
     <div
       class="flex"
       style="
-        justify-content: space-betweenl;
+        justify-content: space-between;
         align-items: center;
         padding: 20px;
         background-color: #cdf0ea;

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Item } from '@/views/todos/index.vue'
+import { useRouter } from 'vue-router'
 
 withDefaults(
   defineProps<{
@@ -8,6 +9,8 @@ withDefaults(
   {}
 )
 
+const router = useRouter()
+
 const itemStyle = {
   textDecoration: 'line-through',
   color: 'gray',
@@ -15,8 +18,17 @@ const itemStyle = {
 
 const emit = defineEmits<{
   (event: 'delete-item', value: number): void
-  (event: 'toggle-item', value: number): void
+  (event: 'toggle-item', value: number, checked: any): void
 }>()
+
+function moveToDetailPage(id: number | null) {
+  router.push({
+    name: 'todos-:id',
+    params: {
+      id,
+    },
+  })
+}
 </script>
 
 <template>
@@ -27,12 +39,15 @@ const emit = defineEmits<{
   >
     <div
       class="border p-3 rounded-md text-sm flex justify-between items-center"
+      style="cursor: pointer"
+      @click="moveToDetailPage(item.id)"
     >
       <div class="space-x-1 flex items-center w-full">
         <input
           type="checkbox"
           :checked="item.completed"
-          @change="emit('toggle-item', index)"
+          @change="emit('toggle-item', index, $event.target.checked)"
+          @click.stop
         />
         <label :style="item.completed ? itemStyle : ''"
           >{{ item.content }}
@@ -42,7 +57,7 @@ const emit = defineEmits<{
         type="button"
         style="background-color: gray; color: white; border-radius: 5px"
         class="px-2"
-        @click="emit('delete-item', index)"
+        @click.stop="emit('delete-item', index)"
       >
         Delete
       </button>

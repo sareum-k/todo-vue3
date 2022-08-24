@@ -15,7 +15,7 @@ export interface Item {
 const itemList = ref<Item[]>([])
 const searchText = ref<string>('')
 const numberOfItems = ref<string | number>(0)
-const limit: number = 10
+const limit: number = 5
 const currentPage = ref<number>(1)
 
 const addItem = async (item: any) => {
@@ -58,13 +58,13 @@ const deleteItem = async (index: number) => {
   }
 }
 
-const updateItem = async (index: number) => {
+const updateItem = async (index: number, checked: boolean) => {
   const id = itemList.value[index].id
   try {
     await axios.patch(`http://localhost:3000/todos/${id}`, {
-      completed: !itemList.value[index].completed,
+      completed: checked,
     })
-    itemList.value[index].completed = !itemList.value[index].completed
+    itemList.value[index].completed = checked
   } catch (err) {
     alert('에러가 있습니다. 관리자에게 문의해주세요!')
     console.log(err)

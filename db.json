@@ -137,23 +137,13 @@
     },
     {
       "content": "12346564",
-      "completed": false,
+      "completed": true,
       "id": 58
     },
     {
       "content": "1234",
-      "completed": false,
+      "completed": true,
       "id": 59
-    },
-    {
-      "content": "test",
-      "completed": false,
-      "id": 60
-    },
-    {
-      "content": "순서 확인용 입니다",
-      "completed": false,
-      "id": 61
     }
   ]
 }
