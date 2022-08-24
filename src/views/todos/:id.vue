@@ -1,20 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
+import _ from 'lodash'
 
 const route = useRoute()
 const router = useRouter()
 const item = ref<any>(null)
+const originalItem = ref<any>(null)
 const loading = ref<boolean>(true)
-
-const incompleted = {
-  backgroundColor: '#E64848',
-}
-
-const completed = {
-  backgroundColor: '#3ec70b',
-}
 
 const getTodo = async () => {
   loading.value = true
@@ -22,7 +16,8 @@ const getTodo = async () => {
     const res = await axios.get(
       `http://localhost:3000/todos/${route.params.id}`
     )
-    item.value = res.data
+    item.value = { ...res.data }
+    originalItem.value = { ...res.data }
     loading.value = false
   } catch (err) {
     alert('에러가 있습니다. 관리자에게 문의해주세요!')
@@ -31,6 +26,10 @@ const getTodo = async () => {
 }
 
 getTodo()
+
+const updatedItem = computed(() => {
+  return !_.isEqual(item.value, originalItem.value)
+})
 
 const updateState = () => {
   item.value.completed = !item.value.completed
@@ -60,36 +59,28 @@ const updateItemData = async () => {
 
 <template>
   <div>
-    <div class="text-4xl font-bold" style="padding-bottom: 2rem">
-      To-Do Page
-    </div>
+    <div class="text-4xl font-bold pb-10">To-Do Page</div>
     <div v-if="loading">loading</div>
-    <div v-else class="flex space-x-2">
-      <div>
+    <div v-else class="flex space-x-10">
+      <div class="w-full">
         <form class="space-y-2" @submit.prevent="updateItemData">
-          <label style="font-size: 1rem">Todo Content</label>
+          <label>Todo Content</label>
           <input
             type="text"
             v-model="item.content"
-            class="border rounded w-full"
-            style="height: 2rem; padding-left: 0.5rem; color: gray"
+            class="border rounded w-full h-8 pl-2 text-gray-500 text-sm"
           />
-          <div class="space-x-2">
+          <div class="space-x-2 flex justify-end">
             <button
               type="submit"
-              class="rounded"
-              style="
-                background-color: #cdf0ea;
-                padding: 0.3rem 0.8rem;
-                font-size: 0.8rem;
-              "
+              class="rounded bg-[#cdf0ea] px-3 py-1 text-sm"
+              :disabled="!updatedItem"
             >
               저장
             </button>
             <button
               type="button"
-              class="rounded border"
-              style="padding: 0.3rem 0.8rem; font-size: 0.8rem"
+              class="rounded border px-3 py-1 text-sm"
               @click="moveToListPage"
             >
               취소
@@ -98,17 +89,12 @@ const updateItemData = async () => {
         </form>
       </div>
       <div class="space-y-2">
-        <label style="font-size: 1rem">State</label>
+        <label>State</label>
         <div>
           <button
             type="button"
-            class="rounded text-white"
-            style="
-              padding: 0.3rem 0.8rem;
-              font-size: 0.8rem;
-              background-color: #3ec70b;
-            "
-            :style="item.completed ? completed : incompleted"
+            class="rounded text-white px-3 py-1 text-sm"
+            :class="item.completed ? 'bg-[#3ec70b]' : 'bg-[#E64848]'"
             @click="updateState"
           >
             {{ item.completed ? 'Completed' : 'Incompleted' }}
