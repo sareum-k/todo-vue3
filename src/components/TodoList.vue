@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import type { Item } from '@/views/todos/index.vue'
 import { useRouter } from 'vue-router'
+import Modal from '@/components/Modal.vue'
 
 withDefaults(
   defineProps<{
@@ -10,9 +12,11 @@ withDefaults(
 )
 
 const router = useRouter()
+const showModal = ref<boolean>(false)
+const todoDeleteId = ref<number | null>(null)
 
 const emit = defineEmits<{
-  (event: 'delete-item', value: number): void
+  (event: 'delete-item', value: number | null): void
   (event: 'toggle-item', value: number, checked: boolean): void
 }>()
 
@@ -23,6 +27,21 @@ function moveToDetailPage(id: number | null) {
       id,
     },
   })
+}
+
+const openModal = (id: number | null) => {
+  todoDeleteId.value = id
+  showModal.value = true
+}
+
+const closeModal = () => {
+  todoDeleteId.value = null
+  showModal.value = false
+}
+
+const deleteTodo = () => {
+  emit('delete-item', todoDeleteId.value)
+  closeModal()
 }
 </script>
 
@@ -58,7 +77,7 @@ function moveToDetailPage(id: number | null) {
       <button
         type="button"
         class="px-4 py-1 bg-gray-500/50 rounded text-white"
-        @click.stop="emit('delete-item', index)"
+        @click.stop="openModal(item.id)"
       >
         Delete
       </button>
@@ -67,4 +86,9 @@ function moveToDetailPage(id: number | null) {
   <template v-else>
     <div>To Do List가 없습니다!</div>
   </template>
+  <Teleport to="#modal">
+    <div>
+      <Modal v-if="showModal" @on-close="closeModal" @on-delete="deleteTodo" />
+    </div>
+  </Teleport>
 </template>

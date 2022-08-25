@@ -36,11 +36,6 @@
       "id": 19
     },
     {
-      "content": "545",
-      "completed": false,
-      "id": 20
-    },
-    {
       "content": "76",
       "completed": false,
       "id": 21
@@ -51,24 +46,7 @@
       "id": 22
     },
     {
-      "content": "98",
-      "completed": false,
-      "id": 23
-    },
-    {
-      "content": "수정 확인-toast확인 중!!sss",
-      "completed": true,
-      "body": "애니메이션 확인용으로 넣었습니다.",
-      "id": 57
-    },
-    {
       "id": 58
-    },
-    {
-      "content": "dddsds123123",
-      "completed": true,
-      "body": "ddddsdssasaasaasas",
-      "id": 59
     }
   ]
 }

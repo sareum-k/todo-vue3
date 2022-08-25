@@ -39,8 +39,7 @@ const getItemList = async (page = currentPage.value) => {
 
 getItemList()
 
-const deleteItem = async (index: number) => {
-  const id = itemList.value[index].id
+const deleteItem = async (id: number | null) => {
   try {
     await axios.delete(`http://localhost:3000/todos/${id}`)
     getItemList(currentPage.value)
