@@ -10,10 +10,14 @@ const emit = defineEmits<{
   >
     <div class="px-8 py-5 w-2/5 h-1/4 bg-white absolute space-y-9">
       <div class="space-y-2">
-        <div class="text-lg font-semibold text-left">Todo 삭제</div>
+        <div class="text-lg font-semibold text-left">
+          <slot name="title"></slot>
+        </div>
         <hr class="border-green-500/50" />
       </div>
-      <div class="text-center">정말 삭제하시겠습니까?</div>
+      <div class="text-center">
+        <slot name="content"></slot>
+      </div>
       <div class="flex justify-end items-center space-x-2">
         <button
           type="button"

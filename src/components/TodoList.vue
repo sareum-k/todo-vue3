@@ -88,7 +88,10 @@ const deleteTodo = () => {
   </template>
   <Teleport to="#modal">
     <div>
-      <Modal v-if="showModal" @on-close="closeModal" @on-delete="deleteTodo" />
+      <Modal v-if="showModal" @on-close="closeModal" @on-delete="deleteTodo">
+        <template v-slot:title>Todo 삭제</template>
+        <template v-slot:content>정말 삭제하시겠습니까?</template>
+      </Modal>
     </div>
   </Teleport>
 </template>
