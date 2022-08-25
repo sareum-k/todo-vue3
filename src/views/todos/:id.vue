@@ -3,12 +3,17 @@ import { ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 import _ from 'lodash'
+import { useToast } from '@/hooks/toast'
+
+import Toast from '@/components/Toast.vue'
 
 const route = useRoute()
 const router = useRouter()
 const item = ref<any>(null)
 const originalItem = ref<any>(null)
 const loading = ref<boolean>(true)
+
+const { showToast, toastMessage, toastType, triggerToast } = useToast()
 
 const getTodo = async () => {
   loading.value = true
@@ -20,7 +25,8 @@ const getTodo = async () => {
     originalItem.value = { ...res.data }
     loading.value = false
   } catch (err) {
-    alert('에러가 있습니다. 관리자에게 문의해주세요!')
+    triggerToast('에러가 있습니다. 관리자에게 문의해주세요!', '')
+    toastType.value = ''
     console.log(err)
   }
 }
@@ -47,11 +53,14 @@ const updateItemData = async () => {
       content: item.value.content,
       completed: item.value.completed,
     })
-    router.push({
-      name: 'todos',
-    })
+    triggerToast('성공적으로 저장되었습니다!', 'success')
+    // setTimeout(() => {
+    //   router.push({
+    //     name: 'todos',
+    //   })
+    // }, 2000)
   } catch (err) {
-    alert('에러가 있습니다. 관리자에게 문의해주세요!')
+    triggerToast('에러가 있습니다. 관리자에게 문의해주세요!', '')
     console.log(err)
   }
 }
@@ -59,6 +68,7 @@ const updateItemData = async () => {
 
 <template>
   <div>
+    <Toast v-if="showToast" :message="toastMessage" :type="toastType" />
     <div class="text-4xl font-bold pb-10">To-Do Page</div>
     <div v-if="loading">loading</div>
     <div v-else class="flex space-x-10">

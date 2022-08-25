@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import axios from 'axios'
+import { useToast } from '@/hooks/toast'
 
 import TodoSimpleForm from '@/components/TodoSimpleForm.vue'
 import TodoList from '@/components/TodoList.vue'
 import Pagination from '@/components/Pagination.vue'
+import Toast from '@/components/Toast.vue'
 
 export interface Item {
   id: number | null
@@ -18,6 +20,8 @@ const numberOfItems = ref<string | number>(0)
 const limit: number = 5
 const currentPage = ref<number>(1)
 
+const { showToast, toastMessage, toastType, triggerToast } = useToast()
+
 const addItem = async (item: any) => {
   try {
     await axios.post('http://localhost:3000/todos', {
@@ -26,7 +30,7 @@ const addItem = async (item: any) => {
     })
     getItemList(currentPage.value)
   } catch (err) {
-    alert('에러가 있습니다. 관리자에게 문의해주세요!')
+    triggerToast('에러가 있습니다. 관리자에게 문의해주세요!', '')
     console.log(err)
   }
 }
@@ -40,7 +44,7 @@ const getItemList = async (page = currentPage.value) => {
     numberOfItems.value = res.headers['x-total-count']
     itemList.value = res.data
   } catch (err) {
-    alert('에러가 있습니다. 관리자에게 문의해주세요!')
+    triggerToast('에러가 있습니다. 관리자에게 문의해주세요!', '')
     console.log(err)
   }
 }
@@ -53,7 +57,7 @@ const deleteItem = async (index: number) => {
     await axios.delete(`http://localhost:3000/todos/${id}`)
     getItemList(currentPage.value)
   } catch (err) {
-    alert('에러가 있습니다. 관리자에게 문의해주세요!')
+    triggerToast('에러가 있습니다. 관리자에게 문의해주세요!', '')
     console.log(err)
   }
 }
@@ -66,7 +70,7 @@ const updateItem = async (index: number, checked: boolean) => {
     })
     itemList.value[index].completed = checked
   } catch (err) {
-    alert('에러가 있습니다. 관리자에게 문의해주세요!')
+    triggerToast('에러가 있습니다. 관리자에게 문의해주세요!', '')
     console.log(err)
   }
 }
@@ -87,6 +91,7 @@ watch(searchText, () => {
 </script>
 
 <template>
+  <Toast v-if="showToast" :message="toastMessage" :type="toastType" />
   <div class="space-y-3">
     <div class="text-4xl font-bold">To Do List</div>
     <div class="flex space-x-2">
