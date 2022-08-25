@@ -4,7 +4,7 @@ import TodoForm from '@/components/TodoForm.vue'
 
 <template>
   <div>
-    <div class="text-4xl font-bold pb-10">To-Do Page</div>
-    <TodoForm :editing="true" />
+    <div class="text-4xl font-bold pb-10">To-Do Create</div>
+    <TodoForm />
   </div>
 </template>
