@@ -56,13 +56,9 @@
       "id": 23
     },
     {
-      "content": "97111123",
-      "completed": false,
-      "id": 24
-    },
-    {
-      "content": "수정 확인-toast확인 중",
+      "content": "수정 확인-toast확인 중!!sss",
       "completed": true,
+      "body": "애니메이션 확인용으로 넣었습니다.",
       "id": 57
     },
     {

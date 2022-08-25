@@ -11,11 +11,6 @@ withDefaults(
 
 const router = useRouter()
 
-const itemStyle = {
-  textDecoration: 'line-through',
-  color: 'gray',
-}
-
 const emit = defineEmits<{
   (event: 'delete-item', value: number): void
   (event: 'toggle-item', value: number, checked: boolean): void
@@ -38,8 +33,7 @@ function moveToDetailPage(id: number | null) {
     :key="index"
   >
     <div
-      class="border p-3 rounded-md text-sm flex justify-between items-center"
-      style="cursor: pointer"
+      class="border p-3 rounded-md text-sm flex justify-between items-center cursor-pointer"
       @click="moveToDetailPage(item.id)"
     >
       <div class="space-x-1 flex items-center w-full">
@@ -55,14 +49,15 @@ function moveToDetailPage(id: number | null) {
           "
           @click.stop
         />
-        <label :style="item.completed ? itemStyle : ''"
+        <label
+          class="cursor-pointer"
+          :class="item.completed ? 'line-through text-gray-500' : ''"
           >{{ item.content }}
         </label>
       </div>
       <button
         type="button"
-        style="background-color: gray; color: white; border-radius: 5px"
-        class="px-3"
+        class="px-4 py-1 bg-gray-500/50 rounded text-white"
         @click.stop="emit('delete-item', index)"
       >
         Delete

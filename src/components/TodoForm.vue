@@ -98,7 +98,9 @@ const updateItemData = async () => {
 
 <template>
   <div>
-    <Toast v-if="showToast" :message="toastMessage" :type="toastType" />
+    <transition name="fade">
+      <Toast v-if="showToast" :message="toastMessage" :type="toastType" />
+    </transition>
     <div v-if="loading">loading</div>
     <div v-else class="space-x-10">
       <div class="w-full">
@@ -161,3 +163,20 @@ const updateItemData = async () => {
     </div>
   </div>
 </template>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.5s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
+  transform: translateY(0px);
+}
+</style>
