@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import axios from 'axios'
+import axios from '@/axios'
 import { useToast } from '@/hooks/toast'
 import { useRouter } from 'vue-router'
 
@@ -27,7 +27,7 @@ const getItemList = async (page = currentPage.value) => {
   currentPage.value = page
   try {
     const res = await axios.get(
-      `http://localhost:3000/todos?content_like=${searchText.value}&_page=${page}&_limit=${limit}&_sort=id&_order=desc`
+      `todos?content_like=${searchText.value}&_page=${page}&_limit=${limit}&_sort=id&_order=desc`
     )
     numberOfItems.value = res.headers['x-total-count']
     itemList.value = res.data
@@ -41,7 +41,7 @@ getItemList()
 
 const deleteItem = async (id: number | null) => {
   try {
-    await axios.delete(`http://localhost:3000/todos/${id}`)
+    await axios.delete(`todos/${id}`)
     getItemList(currentPage.value)
   } catch (err) {
     triggerToast('에러가 있습니다. 관리자에게 문의해주세요!', '')
@@ -52,7 +52,7 @@ const deleteItem = async (id: number | null) => {
 const updateItem = async (index: number, checked: boolean) => {
   const id = itemList.value[index].id
   try {
-    await axios.patch(`http://localhost:3000/todos/${id}`, {
+    await axios.patch(`todos/${id}`, {
       completed: checked,
     })
     itemList.value[index].completed = checked

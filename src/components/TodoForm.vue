@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, computed, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import axios from 'axios'
 import _ from 'lodash'
 import { useToast } from '@/hooks/toast'
+import axios from '@/axios'
 
 import Toast from '@/components/Toast.vue'
 
@@ -31,9 +31,7 @@ const { showToast, toastMessage, toastType, triggerToast } = useToast()
 const getTodo = async () => {
   loading.value = true
   try {
-    const res = await axios.get(
-      `http://localhost:3000/todos/${route.params.id}`
-    )
+    const res = await axios.get(`todos/${route.params.id}`)
     item.value = { ...res.data }
     originalItem.value = { ...res.data }
     loading.value = false
@@ -75,13 +73,10 @@ const updateItemData = async () => {
       body: item.value.body,
     }
     if (props.editing) {
-      res = await axios.put(
-        `http://localhost:3000/todos/${item.value.id}`,
-        data
-      )
+      res = await axios.put(`todos/${item.value.id}`, data)
       triggerToast('성공적으로 수정되었습니다!', 'success')
     } else {
-      res = await axios.post(`http://localhost:3000/todos`, data)
+      res = await axios.post(`todos`, data)
       triggerToast('성공적으로 생성되었습니다!', 'success')
       setTimeout(() => {
         router.push({

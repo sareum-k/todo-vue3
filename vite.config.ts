@@ -10,7 +10,7 @@ export default defineConfig({
     vue(),
     Pages({
       pagesDir: 'src/views',
-      extensions: ['vue', 'ts'],
+      extensions: ['vue', 'ts', 'js'],
     }),
   ],
   resolve: {
