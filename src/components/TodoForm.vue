@@ -112,7 +112,7 @@ const updateItemData = async () => {
                 />
               </div>
             </div>
-            <div v-if="editing" class="space-y-2">
+            <div v-if="editing" class="space-y-2 w-28">
               <label class="font-semibold">State</label>
               <div>
                 <button

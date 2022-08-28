@@ -11,24 +11,18 @@ const navItems: NavItem[] = [
 </script>
 
 <template>
-  <div class="w-full">
+  <div class="w-full min-h-screen flex flex-col items-center justify-center">
     <div
-      class="flex"
-      style="
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px;
-        background-color: #cdf0ea;
-      "
+      class="flex absolute top-0 w-full justify-between items-center p-5 bg-green-100"
     >
-      <div class="font-bold" style="font-size: 22px">Sareum's Todo</div>
-      <ul class="flex">
-        <li v-for="item in navItems" style="padding-right: 20px">
+      <div class="font-bold text-xl">Sareum's Todo</div>
+      <ul class="flex space-x-5">
+        <li v-for="item in navItems">
           <RouterLink :to="`${item.link}`">{{ item.name }}</RouterLink>
         </li>
       </ul>
     </div>
-    <div class="" style="padding: 1.5rem 10rem">
+    <div class="py-5 px-20 w-full">
       <RouterView />
     </div>
   </div>
